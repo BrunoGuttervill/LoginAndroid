@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        val prefs = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("LoginCredentials", Context.MODE_PRIVATE)
         val username = prefs.getString("username", "user")
         val password = prefs.getString("password", "1234")
 
