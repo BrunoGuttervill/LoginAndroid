@@ -36,7 +36,7 @@ class SecondActivity : AppCompatActivity() {
         passwordInput.addTextChangedListener(watcher)
 
         saveButton.setOnClickListener {
-            val prefs = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE).edit()
+            val prefs = getSharedPreferences("LoginCredentials", Context.MODE_PRIVATE).edit()
             prefs.putString("username", usernameInput.text.toString())
             prefs.putString("password", passwordInput.text.toString())
             prefs.apply()
