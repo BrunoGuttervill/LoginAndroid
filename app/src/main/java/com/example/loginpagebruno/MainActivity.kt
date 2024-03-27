@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userEdit: EditText
     private lateinit var passEdit: EditText
     private lateinit var loginBtn: Button
+    private lateinit var cadastrarBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         passEdit = findViewById(R.id.passwordEditText)
         loginBtn = findViewById(R.id.loginButton)
         loginBtn.isEnabled = false
+        cadastrarBtn = findViewById(R.id.cadastrarBtn)
     }
 
     private fun setupListeners() {
@@ -48,20 +50,34 @@ class MainActivity : AppCompatActivity() {
         loginBtn.setOnClickListener {
             login()
         }
+        cadastrarBtn.setOnClickListener {
+            startActivity(Intent(this, TertiaryActivity::class.java))
+        }
     }
 
     private fun login() {
-        val prefs = getSharedPreferences("LoginCredentials", Context.MODE_PRIVATE)
-        val username = prefs.getString("username", "user")
-        val password = prefs.getString("password", "1234")
+        val usernameInput = userEdit.text.toString()
+        val passwordInput = passEdit.text.toString()
 
-        if (userEdit.text.toString() == username && passEdit.text.toString() == password) {
-            startActivity(Intent(this, SecondActivity::class.java))
-        } else {
-            AlertDialog.Builder(this)
-                .setMessage("Username ou Password inválidos")
-                .setPositiveButton("OK", null)
-                .show()
+        val prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val userDetails = prefs.getString(usernameInput, null)
+
+        userDetails?.let {
+            val savedPassword = it.split("|")[0]
+            if (passwordInput == savedPassword) {
+                startActivity(Intent(this, SecondActivity::class.java))
+            } else {
+                showLoginError()
+            }
+        } ?: run {
+            showLoginError()
         }
+    }
+
+    private fun showLoginError() {
+        AlertDialog.Builder(this)
+            .setMessage("Username ou Password inválidos")
+            .setPositiveButton("OK", null)
+            .show()
     }
 }

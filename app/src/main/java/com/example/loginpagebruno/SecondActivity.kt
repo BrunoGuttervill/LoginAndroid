@@ -36,15 +36,22 @@ class SecondActivity : AppCompatActivity() {
         passwordInput.addTextChangedListener(watcher)
 
         saveButton.setOnClickListener {
-            val prefs = getSharedPreferences("LoginCredentials", Context.MODE_PRIVATE).edit()
-            prefs.putString("username", usernameInput.text.toString())
-            prefs.putString("password", passwordInput.text.toString())
-            prefs.apply()
-
-            AlertDialog.Builder(this)
-                .setMessage("Credentials updated successfully!")
-                .setPositiveButton("OK") { _, _ -> finish() }
-                .show()
+            saveCredentials()
         }
+    }
+
+    private fun saveCredentials() {
+        val username = usernameInput.text.toString()
+        val password = passwordInput.text.toString()
+
+        val prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).edit()
+
+        prefs.putString(username, "$password|user")
+        prefs.apply()
+
+        AlertDialog.Builder(this)
+            .setMessage("Credenciais atualizadas com sucesso!")
+            .setPositiveButton("OK") { _, _ -> finish() }
+            .show()
     }
 }

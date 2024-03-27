@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LoginPageBruno</string>
+    <string-array name="user_types">
+        <item>user</item>
+        <item>adm</item>
+        <item>mkt</item>
+    </string-array>
 </resources>
